@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class CarController : MonoBehaviour
 {
     private float horizontalInput, verticalInput;
@@ -20,6 +19,12 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform frontLeftWheelTransform, frontRightWheelTransform;
     [SerializeField] private Transform rearLeftWheelTransform, rearRightWheelTransform;
 
+    [SerializeField] private MobileController gasPedalButton;
+    [SerializeField] private MobileController brakePedalButton;
+    [SerializeField] private MobileController brakeLeverButton;
+    [SerializeField] private MobileController moveRight;
+    [SerializeField] private MobileController moveLeft;
+
     private void FixedUpdate()
     {
         GetInput();
@@ -31,13 +36,39 @@ public class CarController : MonoBehaviour
     private void GetInput()
     {
         // Steering Input
-        horizontalInput = Input.GetAxis("Horizontal");
+        if (moveLeft != null && moveLeft.isPressed)
+        {
+            horizontalInput = -1;
+        }
+        else if (moveRight != null && moveRight.isPressed)
+        {
+            horizontalInput = 1;
+        } else
+        {
+            horizontalInput = Input.GetAxis("Horizontal");
+        }
 
-        // Acceleration Input
-        verticalInput = Input.GetAxis("Vertical");
-
-        // Breaking Input
-        isBreaking = Input.GetKey(KeyCode.Space);
+        // Accelration Input
+        if (gasPedalButton != null && gasPedalButton.isPressed)
+        {
+            verticalInput = 1;
+            isBreaking = false;
+        } 
+        else if (brakePedalButton != null && brakePedalButton.isPressed)
+        {
+            verticalInput = -1;
+            isBreaking = false;
+        }
+        else if (brakeLeverButton != null && brakeLeverButton.isPressed)
+        {
+            verticalInput = 0;
+            isBreaking = true;
+        }
+        else
+        {
+            verticalInput = Input.GetAxis("Vertical");
+            isBreaking = Input.GetKey(KeyCode.Space);
+        }
     }
 
     private void HandleMotor()
