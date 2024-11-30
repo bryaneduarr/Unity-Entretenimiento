@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig>
+  <Tracking>
+    <ImageTarget name="disparador-pic" size="10.000000 7.731250" />
+    <ImageTarget name="disparador-pista" size="10.000000 10.000000" />
+  </Tracking>
+</QCARConfig>
