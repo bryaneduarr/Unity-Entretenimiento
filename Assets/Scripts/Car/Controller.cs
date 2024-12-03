@@ -19,6 +19,8 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform frontLeftWheelTransform, frontRightWheelTransform;
     [SerializeField] private Transform rearLeftWheelTransform, rearRightWheelTransform;
 
+    private float moveSpeed = 45f;
+
     [SerializeField] private MobileController gasPedalButton;
     [SerializeField] private MobileController brakePedalButton;
     [SerializeField] private MobileController brakeLeverButton;
@@ -49,43 +51,47 @@ public class CarController : MonoBehaviour
         }
 
         // Accelration Input
-        if (gasPedalButton != null && gasPedalButton.isPressed)
-        {
-            verticalInput = 1;
-            isBreaking = false;
-        } 
-        else if (brakePedalButton != null && brakePedalButton.isPressed)
-        {
-            verticalInput = -1;
-            isBreaking = false;
-        }
-        else if (brakeLeverButton != null && brakeLeverButton.isPressed)
-        {
-            verticalInput = 0;
-            isBreaking = true;
-        }
-        else
-        {
-            verticalInput = Input.GetAxis("Vertical");
-            isBreaking = Input.GetKey(KeyCode.Space);
-        }
+        //if (gasPedalButton != null && gasPedalButton.isPressed)
+        //{
+        //    verticalInput = 1;
+        //    isBreaking = false;
+        //} 
+        //else if (brakePedalButton != null && brakePedalButton.isPressed)
+        //{
+        //    verticalInput = -1;
+        //    isBreaking = false;
+        //}
+        //else if (brakeLeverButton != null && brakeLeverButton.isPressed)
+        //{
+        //    verticalInput = 0;
+        //    isBreaking = true;
+        //}
+        //else
+        //{
+        //    verticalInput = Input.GetAxis("Vertical");
+        //    isBreaking = Input.GetKey(KeyCode.Space);
+        //}
     }
 
     private void HandleMotor()
     {
-        frontLeftWheelCollider.motorTorque = verticalInput * motorForce;
-        frontRightWheelCollider.motorTorque = verticalInput * motorForce;
-        currentbreakForce = isBreaking ? breakForce : 0f;
-        ApplyBreaking();
+        //frontLeftWheelCollider.motorTorque = verticalInput * motorForce;
+        //frontRightWheelCollider.motorTorque = verticalInput * motorForce;
+        //currentbreakForce = isBreaking ? breakForce : 0f;
+        //ApplyBreaking();
+
+        Vector3 newPosition = transform.position;
+        newPosition.x += horizontalInput * moveSpeed * Time.deltaTime;
+        transform.position = newPosition;
     }
 
-    private void ApplyBreaking()
-    {
-        frontRightWheelCollider.brakeTorque = currentbreakForce;
-        frontLeftWheelCollider.brakeTorque = currentbreakForce;
-        rearLeftWheelCollider.brakeTorque = currentbreakForce;
-        rearRightWheelCollider.brakeTorque = currentbreakForce;
-    }
+    //private void ApplyBreaking()
+    //{
+    //    frontRightWheelCollider.brakeTorque = currentbreakForce;
+    //    frontLeftWheelCollider.brakeTorque = currentbreakForce;
+    //    rearLeftWheelCollider.brakeTorque = currentbreakForce;
+    //    rearRightWheelCollider.brakeTorque = currentbreakForce;
+    //}
 
     private void HandleSteering()
     {
